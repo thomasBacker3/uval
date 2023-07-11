@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String @id @default(cuid())
+  number       Int    @unique
+
+  name         String // Александр 
+  lastName     String // Чирков
+  middleName   String // Андеевич
+  // fullName String
+
+  garrison     String
+  // militaryIdNumber String @unique
+  // enlistmentDate DateTime
+  // demobilizationDate DateTime
+  // gasMaskNumber String
+  chatNickname String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rank Rank @relation(fields: [rankId], references: [id])
+  rankId Int
+
+  position Position @relation(fields: [positionId], references: [id]) 
+  positionId Int
+
+  platoon   Platoon @relation(fields: [platoonId], references: [number])
+  platoonId Int
+
+  department   Department @relation(fields: [departmentId], references: [number])
+  departmentId Int
+
+  userProfile UserProfile?
+}
+
+model UserProfile {
+  user   User @relation(fields: [userId], references: [id])
+  userId String  @unique @id
+
+  lastName1 String // Иванову
+  name1 String // Ивану
+  middleName1 String // Ивановичу
+
+  lastName2 String // Иванова
+  name2 String // Ивана
+  middleName2 String // Ивановича
+
+}
+
+model Platoon {
+  number Int    @id @unique
+  name   String @unique
+  users  User[]
+}
+
+model Department {
+  number Int    @id @unique
+  name   String @unique
+  users  User[]
+}
+
+model Rank {
+  id Int @id @default(autoincrement())
+  name String //рядовой
+  name2 String // рядового
+  name3 String // рядовому
+  shortName String // ряд.
+
+  users  User[]
+}
+
+model Position {
+  id Int @id @default(autoincrement())
+  name String //Оператор ПЭВМ
+  name2 String // Оператора ПЭВМ
+  name3 String // Оператору ПЭВМ
+
+  users  User[]
+}
