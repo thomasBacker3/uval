@@ -70,7 +70,7 @@ const UsersPage: FC = () => {
   };
 
   const copyNicknames = async () => {
-    const str = selectedUsers.map((u) => `@${u.chatNickname}`).join('\n');
+    const str = selectedUsers.map((u, idx) => `${idx + 1}. @${u.chatNickname}`).join('\n');
     await copy(str);
     toast({ title: 'Nicknames copied!' });
   };
