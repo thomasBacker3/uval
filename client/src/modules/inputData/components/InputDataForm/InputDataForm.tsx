@@ -3,7 +3,7 @@ import DatePickerWithRange from '~/modules/UI/DatePickerWithRange/DatePickerWith
 import { Tabs, TabsList, TabsTrigger } from '~/components/ui/tabs';
 
 const InputDataForm = () => {
-  const { dates, setDates, type, setType } = useInputData();
+  const { dates, setDates, setType } = useInputData();
 
   return (
     <div className='w-1/2 flex flex-col gap-2 mb-5'>
