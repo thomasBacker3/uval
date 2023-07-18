@@ -30,7 +30,7 @@ const UsersPage: FC = () => {
   const { toast } = useToast();
   const [_, copy] = useCopyToClipboard();
 
-  const { dates } = useInputData();
+  const { dates, type } = useInputData();
 
   const generateDocs = useMutation(api.docs.genUval, {
     onSuccess: () => {
@@ -62,6 +62,7 @@ const UsersPage: FC = () => {
           money: format(addDays(dates.to, 1), 'dd.MM.yyyy'),
           finishTime: '20.00',
         },
+        type,
         year: new Date().getFullYear(),
       },
     });

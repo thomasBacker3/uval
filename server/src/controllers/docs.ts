@@ -22,7 +22,8 @@ export const generateUval = async (req: Request, res: Response, next: NextFuncti
 			finish: input.dates.finish,
 			finishTime: '20.00',
 			money: input.dates.money
-		}
+		},
+		type: input.type
 	}
 
 	const users = await prisma.user.findMany({
