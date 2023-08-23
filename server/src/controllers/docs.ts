@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
-import prisma from '../prisma'
 import path from 'path'
 import fs from 'fs'
 import { convertNumberToText, getLastNameWithInitials } from '../utils'
 
 import { createZip, generateDocFromTemplate } from '../services/docs.service'
+import { getUsers } from '../services/users.service'
 import { OUTPUT_PATH } from '../constants'
 
 export const generateUval = async (req: Request, res: Response, next: NextFunction) => {
@@ -26,17 +26,7 @@ export const generateUval = async (req: Request, res: Response, next: NextFuncti
 		type: input.type
 	}
 
-	const users = await prisma.user.findMany({
-		where: { id: { in: userIds } },
-		include: {
-			department: true,
-			platoon: true,
-			rank: true,
-			userProfile: true,
-			position: true
-		},
-		orderBy: [{ rankId: 'asc' }, { lastName: 'asc' }]
-	})
+	const users = await getUsers(userIds)
 
 	const data = {
 		users: users.map((u: { lastName: any; middleName: any; name: any }) => ({
